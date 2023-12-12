@@ -1,6 +1,9 @@
 import tkinter
 import keyboard as key
+import pyautogui
+
 import pyautogui as pag
+from PIL import *
 from tkinter import *
 position = ""
 def find_location():
@@ -8,8 +11,17 @@ def find_location():
         while True:
             if key.is_pressed("space"):
                 position = pag.position()
+                x,y = pag.position()
+                color = get_pixel_color_pyautogui(x,y)
+                rgb_values = color
+                color_string = "#{:02X}{:02X}{:02X}".format(*rgb_values)
                 textbox = tkinter.Label(master=app, text=str(position),bg="white")
                 textbox.place(x=50,y=28)
+                colorbox = tkinter.Label(master=app, text="", bg="white")
+                colorbox.place(x=70, y=70)
+                colorbox = tkinter.Label(master=app,text=str(color),bg=color_string)
+                colorbox.place(x=70,y=70)
+
                 break
             else:
 
@@ -17,6 +29,14 @@ def find_location():
 
     except:
         print("unable to display the mouse position")
+def get_pixel_color_pyautogui(x, y):
+    # Take a screenshot
+    screenshot = pyautogui.screenshot()
+
+    # Get the color of the pixel at coordinates (x, y)
+    pixel_color = screenshot.getpixel((x, y))
+
+    return pixel_color
 
 app = Tk()
 app.geometry("200x100")
