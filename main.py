@@ -114,23 +114,29 @@ class MouseTrackerApp:
         self.position_label.config(text=f"Position: {x}, {y}")
         self.color_label.config(text=f"Color: {color}", bg=color_string)
 
+# sets the hotkey for the auto-clicker, feel free to change it.
     def autoclick(self):
         while self.autoclicking:
-            if key.is_pressed("space"):
+            if key.is_pressed("r"):
                 pag.click()
-            time.sleep(0.01)
+                time.sleep(.01)
 
     def start_autoclick(self):
         self.autoclicking = True
         self.autoclick_thread = threading.Thread(target=self.autoclick)
         self.autoclick_thread.start()
-
+        self.autoclick_thread1 = threading.Thread(target=self.autoclick)
+        self.autoclick_thread1.start()
+        self.autoclick_thread2 = threading.Thread(target=self.autoclick)
+        self.autoclick_thread2.start()
+        self.autoclick_thread3 = threading.Thread(target=self.autoclick)
+        self.autoclick_thread3.start()
         self.start_autoclick_btn.config(state=tk.DISABLED)
         self.stop_autoclick_btn.config(state=tk.NORMAL)
 
     def stop_autoclick(self):
         self.autoclicking = False
-        if self.autoclick_thread and self.autoclick_thread.is_alive():
+        if self.autoclick_thread and self.autoclick_thread.is_alive() and self.autoclick_thread1 and self.autoclick_thread2 and self.autoclick_thread3:
             self.autoclick_thread.join()
 
         self.start_autoclick_btn.config(state=tk.NORMAL)
@@ -184,5 +190,4 @@ if __name__ == "__main__":
     app = tk.Tk()
     mouse_tracker_app = MouseTrackerApp(app)
     app.mainloop()
-
 
